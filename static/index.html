@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Expense Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="header">
+        <div class="brand">
+          <span class="logo" aria-hidden="true">₹</span>
+          <div>
+            <h1>Expense Tracker</h1>
+            <p class="subtitle">SQLite + Chroma semantic search</p>
+          </div>
+        </div>
+        <div id="chroma-status" class="status-badge" title="Chroma Cloud connection">
+          Checking…
+        </div>
+      </header>
+
+      <section class="stats-grid" id="stats-grid">
+        <article class="stat-card stat-total">
+          <span class="stat-label">Total spent</span>
+          <span class="stat-value" id="stat-total">—</span>
+        </article>
+        <article class="stat-card">
+          <span class="stat-label">Transactions</span>
+          <span class="stat-value" id="stat-count">—</span>
+        </article>
+        <article class="stat-card stat-categories">
+          <span class="stat-label">By category</span>
+          <div id="stat-categories" class="category-pills"></div>
+        </article>
+      </section>
+
+      <div class="panels">
+        <section class="panel panel-form">
+          <h2>Add expense</h2>
+          <form id="expense-form" class="expense-form">
+            <label>
+              Description
+              <input
+                type="text"
+                name="description"
+                placeholder="Coffee at Blue Bottle"
+                required
+                maxlength="500"
+              />
+            </label>
+            <div class="form-row">
+              <label>
+                Amount
+                <input
+                  type="number"
+                  name="amount"
+                  step="0.01"
+                  min="0.01"
+                  placeholder="12.50"
+                  required
+                />
+              </label>
+              <label>
+                Category
+                <input
+                  type="text"
+                  name="category"
+                  list="category-suggestions"
+                  placeholder="Food"
+                  required
+                  maxlength="100"
+                />
+                <datalist id="category-suggestions">
+                  <option value="Food"></option>
+                  <option value="Transport"></option>
+                  <option value="Shopping"></option>
+                  <option value="Bills"></option>
+                  <option value="Entertainment"></option>
+                  <option value="Health"></option>
+                  <option value="Travel"></option>
+                  <option value="Other"></option>
+                </datalist>
+              </label>
+            </div>
+            <label>
+              Date
+              <input type="date" name="expense_date" required />
+            </label>
+            <button type="submit" class="btn btn-primary">Add expense</button>
+          </form>
+        </section>
+
+        <section class="panel panel-search">
+          <h2>Semantic search</h2>
+          <p class="hint">
+            Search by meaning — e.g. &quot;lunch meetings&quot;, &quot;uber rides&quot;, &quot;subscriptions&quot;
+          </p>
+          <form id="search-form" class="search-form">
+            <input
+              type="search"
+              name="query"
+              placeholder="What are you looking for?"
+              required
+            />
+            <button type="submit" class="btn btn-secondary">Search</button>
+          </form>
+          <div id="search-results" class="search-results hidden"></div>
+        </section>
+      </div>
+
+      <section class="panel panel-list">
+        <div class="list-header">
+          <h2>Recent expenses</h2>
+          <select id="filter-category" aria-label="Filter by category">
+            <option value="">All categories</option>
+          </select>
+        </div>
+        <div id="expense-list" class="expense-list">
+          <p class="empty-state">No expenses yet. Add your first one above.</p>
+        </div>
+      </section>
+    </div>
+
+    <div id="toast" class="toast hidden" role="status"></div>
+    <script src="/static/app.js"></script>
+  </body>
+</html>
