@@ -1,0 +1,21 @@
+# Render service definition for the Expense Tracker app
+# NOTE: Do NOT put secrets in this file. Set the actual secret values
+# in the Render dashboard after creating the service.
+services:
+  - type: web
+    name: expense-tracker
+    env: python
+    plan: free
+    branch: main
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    envVars:
+      - key: CHROMA_HOST
+        value: api.trychroma.com
+      - key: CHROMA_API_KEY
+        value: <SET_IN_RENDER_DASHBOARD>
+      - key: CHROMA_TENANT
+        value: <SET_IN_RENDER_DASHBOARD>
+      - key: CHROMA_DATABASE
+        value: development
